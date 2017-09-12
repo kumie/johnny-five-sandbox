@@ -1,0 +1,22 @@
+{
+  "name": "johnny-five-sandbox",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "lint": "eslint index.js components"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kumie/johnny-five-sandbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kumie/johnny-five-sandbox/issues"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "johnny-five": "^0.11.6",
+    "lodash": "^4.17.4",
+    "temporal": "^0.6.0"
+  }
+}
