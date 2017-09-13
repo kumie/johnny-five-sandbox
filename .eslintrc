@@ -1,10 +1,17 @@
 {
+  "extends": "eslint:recommended",
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 6,
+    "sourceType": "module"
   },
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
-    "prefer-const": 2
+    "prefer-const": 2,
+    "no-console": "warn"
+  },
+  "env": {
+    "node": true,
+    "jasmine": true
   }
 }
