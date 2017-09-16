@@ -1,25 +1,28 @@
 // const five = require('johnny-five') ;
 const temporal = require('temporal');
+const repl = require('repl');
 // const board = new five.Board();
 // const led = new five.Led();
 
-/**
- * @class MotorStepper
- * @param {Object} opts - Configuration options
- * @param {Number} [opts.nTimesToRun = 100] - The number of times to have the stepper pulse.
- */
+
 class MotorStepper {
-  constructor({ nTimesToRun = 100 } = {}) {
+  constructor() {
     // board.on('ready', () => {
     //   this.stop();
     //   this.start(nTimesToRun);
     // });
-    this.start(nTimesToRun);
+    this.promptForSteps();
   }
 
-  start(nTimesToRun) {
+  promptForSteps() {
+    // direction
+    repl.start({ prompt: '> Number of times to step: ', eval: this.start.bind(this) });
+  }
+
+  start(nTimesToStep) {
+    console.log(nTimesToStep);
     temporal.loop(10, (temporal) => {
-      if (temporal.called <= nTimesToRun) {
+      if (temporal.called <= nTimesToStep) {
         this.doStep(temporal.called);
       }
     });

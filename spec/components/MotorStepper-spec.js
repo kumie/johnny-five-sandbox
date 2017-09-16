@@ -32,7 +32,7 @@ describe('Motor Stepper', () => {
     spyOn(stepper, 'doStep').and.callFake(_.noop);
 
     const numberOfTimesToRunMethod = 2;
-    
+
     stepper.start(numberOfTimesToRunMethod);
     expect(stepper.doStep.calls.count()).toEqual(numberOfTimesToRunMethod);
   });
