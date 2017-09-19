@@ -10,41 +10,51 @@ class MotorStepper {
   }
 
   handleBoardReady() {
-    const pin = this.createPin(4);
+    const pins = [this.createPin(4), this.createPin(5)];
 
-    this.stop(pin);
-    this.promptForSteps(pin);
+    this.stop(pins);
+    this.promptForSteps(pins);
   }
 
   createPin(position) {
     return new five.Pin(position);
   }
 
-  promptForSteps(pin) {
+  promptForSteps(pins) {
     repl.start({
-      prompt: '> Please enter the direction and number of steps e.g. STEPCW 5\n',
-      eval: (userInput) => {
-        this.evalUserStepsInput(userInput, pin);
+      prompt: '> Direction and number of steps e.g. STEPCW 5\n',
+      eval: (userStepsInput) => {
+        this.evalUserStepsInput({ userStepsInput, pins });
       }
     });
   }
 
-  evalUserStepsInput(userStepsInput, pin) {
+  evalUserStepsInput({ userStepsInput, pins }) {
     const direction = this.getDirection(userStepsInput);
     const numberOfSteps = this.getNumberOfSteps(userStepsInput);
 
     if (direction && numberOfSteps) {
-      this.start({ pin, direction, numberOfSteps });
+      this.start({ pins, direction, numberOfSteps });
     }
   }
 
+  /**
+   * Determines whether the direction is clock wise or counter clock wise
+   * @param {String} userStepsInput - e.g. 'STEPCW 5'
+   * @returns {String}
+   */
   getDirection(userStepsInput) {
     const directionPattern = /c(c|w)+/i;
     const directionMatch = userStepsInput.match(directionPattern);
 
-    if (_.isArray(directionMatch)) return directionMatch[0];
+    if (_.isArray(directionMatch)) {
+      return _.chain(directionMatch)
+        .head()
+        .toLower()
+        .value();
+    }
 
-    return null;
+    return '';
   }
 
   getNumberOfSteps(userStepsInput) {
@@ -53,22 +63,33 @@ class MotorStepper {
     if (_.isArray(numberOfStepsMatch)) return numberOfStepsMatch.join('');
   }
 
-  start({ pin, direction, numberOfSteps }) {
-    temporal.loop(10, (temporal) => {
+  start({ pins, direction, numberOfSteps }) {
+    temporal.loop(100, (temporal) => {
       if (temporal.called <= numberOfSteps) {
         const lowOrHigh = temporal.called % 2 === 0 ? 'high' : 'low';
-        this.doStep({ pin, lowOrHigh });
+        this.doStep({ pins, lowOrHigh, direction });
       }
     });
   }
 
-  stop(pin) {
-    pin.low();
+  stop(pins) {
+    _.invokeMap(pins, 'low');
   }
 
-  doStep({ pin, lowOrHigh }) {
-    return pin[lowOrHigh]();
+  doStep({ pins, direction, lowOrHigh }) {
+    const [pin1, pin2] = pins;
+
+    pin1[lowOrHigh]();
+
+    if (direction === MotorStepper.DIRECTION.CCW) {
+      pin2[lowOrHigh]();
+    }
   }
 }
+
+MotorStepper.DIRECTION = {
+  CW: 'cw',
+  CCW: 'ccw'
+};
 
 module.exports = MotorStepper;
