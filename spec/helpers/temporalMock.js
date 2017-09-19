@@ -1,5 +1,8 @@
 import _ from 'lodash';
 
+/**
+ * Mocks the temporal plugin
+ */
 const temporalMock = {
   numberOfTimesToLoop: 2,
 

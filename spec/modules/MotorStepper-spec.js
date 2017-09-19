@@ -3,7 +3,6 @@ import mockery from 'mockery';
 import temporalMock from '../helpers/temporalMock';
 
 describe('Motor Stepper', () => {
-
   mockery.enable({
     warnOnReplace: false,
     warnOnUnregistered: false,
@@ -12,7 +11,7 @@ describe('Motor Stepper', () => {
 
   mockery.registerMock('temporal', temporalMock);
 
-  const Stepper = require('../../components/MotorStepper');
+  const Stepper = require('../../modules/MotorStepper');
 
   let stepper;
 
@@ -31,9 +30,12 @@ describe('Motor Stepper', () => {
   it('Should run the doStep method twice every 10ms using the temporal plugin', () => {
     spyOn(stepper, 'doStep').and.callFake(_.noop);
 
-    const numberOfTimesToRunMethod = 2;
+    stepper.start({
+      pins: [{}, {}],
+      direction: 'ccw',
+      numberOfSteps: 2
+    });
 
-    stepper.start(numberOfTimesToRunMethod);
-    expect(stepper.doStep.calls.count()).toEqual(numberOfTimesToRunMethod);
+    expect(stepper.doStep.calls.count()).toEqual(2);
   });
 });

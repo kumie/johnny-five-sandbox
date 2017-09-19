@@ -1,4 +1,5 @@
 import mockery from 'mockery';
+import johnnyFiveMock from './johnnyFiveMock';
 
 beforeAll(() => {
   mockery.enable({
@@ -7,14 +8,7 @@ beforeAll(() => {
     useCleanCache: true
   });
 
-  mockery.registerMock('johnny-five', {
-    Board: {
-      on: jasmine.createSpy()
-    },
-    Led: {
-      pulse: jasmine.createSpy()
-    }
-  });
+  mockery.registerMock('johnny-five', johnnyFiveMock);
 });
 
 afterAll(() => {
