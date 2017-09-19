@@ -1,3 +1,3 @@
-const MotorStepper = require('./components/MotorStepper');
+const StepperMotor = require('./modules/StepperMotor');
 
-new MotorStepper();
+new StepperMotor();

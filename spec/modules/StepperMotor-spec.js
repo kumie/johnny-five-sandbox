@@ -2,7 +2,7 @@ import _ from 'lodash';
 import mockery from 'mockery';
 import temporalMock from '../helpers/temporalMock';
 
-describe('Motor Stepper', () => {
+describe('Stepper Motor', () => {
   mockery.enable({
     warnOnReplace: false,
     warnOnUnregistered: false,
@@ -11,7 +11,7 @@ describe('Motor Stepper', () => {
 
   mockery.registerMock('temporal', temporalMock);
 
-  const Stepper = require('../../modules/MotorStepper');
+  const Stepper = require('../../modules/StepperMotor');
 
   let stepper;
 

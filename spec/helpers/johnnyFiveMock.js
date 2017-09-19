@@ -1,9 +1,8 @@
 import PinMock from './PinMock';
+import BoardMock from './BoardMock';
 
 const johnnyFiveMock = {
-  Board: {
-    on: jasmine.createSpy()
-  },
+  Board: BoardMock,
   Led: {
     pulse: jasmine.createSpy()
   },

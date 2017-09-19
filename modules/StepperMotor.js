@@ -4,14 +4,14 @@ const _ = require('lodash');
 const board = new five.Board();
 
 /**
- * @class MotorStepper
+ * @class StepperMotor
  * @example new MotorStepper('stepccw', 5)
  * @param {Object} [opts= {}] - Configuration options
  * @param {Array} [opts.pinPositions = [4, 5]] - The optional pin positions on the board.  The default
  * positions are 4 and 5
  *
  */
-class MotorStepper {
+class StepperMotor {
   constructor({ pinPositions = [4, 5] } = {}) {
     board.on('ready', this.handleBoardReady.bind(this, pinPositions));
   }
@@ -93,15 +93,15 @@ class MotorStepper {
 
     pin1[lowOrHigh]();
 
-    if (direction === MotorStepper.DIRECTION.CCW) {
+    if (direction === StepperMotor.DIRECTION.CCW) {
       pin2[lowOrHigh]();
     }
   }
 }
 
-MotorStepper.DIRECTION = {
+StepperMotor.DIRECTION = {
   CW: 'cw',
   CCW: 'ccw'
 };
 
-module.exports = MotorStepper;
+module.exports = StepperMotor;
